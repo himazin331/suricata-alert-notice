@@ -83,7 +83,8 @@ def main():
                         notice_target_eve.append(eve)
                         prev_timestamp = cur_timestamp
             # 通知
-            notice.notice(notice_target_eve)
+            if len(notice_target_eve) > 0:
+                notice.notice(notice_target_eve)
             last_modified = current_modified
         current_modified = os.path.getmtime(EVE_JSONL_PATH)
 
