@@ -7,4 +7,4 @@ class NoticeType(Enum):
     Both = 3
 
 EVE_JSONL_PATH: str = "/usr/local/var/log/suricata/eve.json"
-NOTICE_TYPE = NoticeType.Nothing
+NOTICE_TYPE = NoticeType.Email

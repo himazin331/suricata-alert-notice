@@ -79,8 +79,7 @@ def main():
 
                     cur_timestamp: datetime = datetime.strptime(eve["timestamp"], "%Y-%m-%dT%H:%M:%S.%f%z")
                     eve["timestamp"] = cur_timestamp
-                    if cur_timestamp != prev_timestamp and "alert" in eve:
-                    # if cur_timestamp > prev_timestamp and "alert" in eve:
+                    if cur_timestamp > prev_timestamp and "alert" in eve:
                         notice_target_eve.append(eve)
                         prev_timestamp = cur_timestamp
             # 通知
