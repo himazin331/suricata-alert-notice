@@ -82,6 +82,7 @@ Suricataがアラートを発報したときに、メールまたはLINE(ある�
 メッセージ送信に伴うメールサーバ認証の設定やLINE Notifyのトークン設定を行います。
 なお、LINE Notifyの設定等は割愛。
 ```python
+# config/notice.py
 SENDER_EMAIL: str = "your_email@example.com"  # 送信元アドレス
 RECEIVER_EMAIL: str = "your_email@gmail.com"  # 送信先アドレス
 SMTP_SERVER: str = "smtp.gmail.com"           # SMTPサーバホスト名 (今回はGmailを利用)
@@ -95,6 +96,7 @@ LINE_NOTIFY_TOKEN: str = "***************************" # Line Notify API Access 
 ### 3. config/general.pyの設定
 通知設定や通知対象とするシグネチャIDの指定などの設定を行います。
 ```python
+# config/general.py
 from enum import Enum
 
 class NoticeType(Enum):
@@ -119,8 +121,10 @@ PRIORITY_SIG_CATEGORY: list[str] = [
 また、上記の`PRIORITY_SIG_CATEGORY`にある文字列を含む`ET xxx ~`から始まるシグネチャを高レベルアラートとして処理する(=ブザー発報と赤色LED点灯)。
 
 #### 参考
-- Emerging threats open ruleset シグネチャID割当領域: https://community.emergingthreats.net/t/signature-id-allocation-ranges/491
-- Emerging threats open ruleset ルールカテゴリ: https://community.emergingthreats.net/t/current-suricata-5-and-suricata-6-rule-categories/94
+- Emerging threats open ruleset シグネチャID割当領域: \
+https://community.emergingthreats.net/t/signature-id-allocation-ranges/491
+- Emerging threats open ruleset ルールカテゴリ: \
+https://community.emergingthreats.net/t/current-suricata-5-and-suricata-6-rule-categories/94
 
 ## 実行
 ```
