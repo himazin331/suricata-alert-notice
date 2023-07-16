@@ -30,14 +30,13 @@ class Notice():
 
         self.notice_target_eve: list[dict] = []
 
-        self.hw_thread = threading.Thread(target=self.hardware_control)
-
     # 通知
     def notice(self, notice_target_eve: list[dict]):
         self.notice_target_eve = notice_target_eve
+        hw_thread = threading.Thread(target=self.hardware_control)
 
         led_control.led_on(LedType.Red)
-        self.hw_thread.start()
+        hw_thread.start()
 
         message: str = "不審な通信を検知しました！\n"
         message += f"件数: {len(self.notice_target_eve)} 件\n"
@@ -47,7 +46,7 @@ class Notice():
             if NOTICE_TYPE is NoticeType.LineNotify or NOTICE_TYPE is NoticeType.Both: # LINE通知
                 self.send_line(message)
 
-        self.hw_thread.join()
+        hw_thread.join()
         led_control.led_off(LedType.Red)
 
     # メッセージ作成
