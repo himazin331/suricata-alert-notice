@@ -35,7 +35,7 @@ class Notice():
         self.notice_target_eve = notice_target_eve
         hw_thread = threading.Thread(target=self.hardware_control)
 
-        led_control.led_on(LedType.Red)
+        led_control.led_on(LedType.Yellow)
         hw_thread.start()
 
         message: str = "不審な通信を検知しました！\n"
@@ -47,7 +47,9 @@ class Notice():
                 self.send_line(message)
 
         hw_thread.join()
-        led_control.led_off(LedType.Red)
+        led_control.led_off(LedType.Yellow)
+        if led_control.is_on_led(LedType.Red):
+            led_control.led_off(LedType.Red)
 
     # メッセージ作成
     def create_message(self, eve: dict) -> str:
@@ -85,16 +87,25 @@ class Notice():
 
     # LCD表示 & ブザー発報
     def hardware_control(self):
+        sig: str = self.notice_target_eve[-1]["alert"]["signature"]
         for _ in range(5):
             stop_state = GPIO.input(STOP_SW_PIN)
             if stop_state == GPIO.LOW or stop_event.is_set(): # 停止
                 break
 
-            bz_control.bz_beep()
-            lcd_string(self.notice_target_eve[-1]["alert"]["signature"])
+            if self.is_priority_sig(sig):
+                led_control.led_on(LedType.Red)
+                bz_control.bz_beep()
+            lcd_string(sig)
             bz_control.bz_stop()
             lcd_string("Detected !!")
-                
+    
+    def is_priority_sig(self, sig: str) -> bool:
+        for category in PRIORITY_SIG_CATEGORY:
+            if category in sig:
+                return True
+        return False
+
 
 def main():
     notice: Notice = Notice()
@@ -103,6 +114,7 @@ def main():
     prev_timestamp: datetime = datetime.now(timezone(timedelta(hours=9)))
     last_modified: float = 0.0
     current_modified: float = os.path.getmtime(EVE_JSONL_PATH)
+    lower_sig_id, upper_sig_id = SIGNATURE_ID_RANGE
 
     led_control.led_on(LedType.Green)
     try:
@@ -119,7 +131,9 @@ def main():
                         cur_timestamp: datetime = datetime.strptime(eve["timestamp"], "%Y-%m-%dT%H:%M:%S.%f%z")
                         eve["timestamp"] = cur_timestamp
                         if cur_timestamp > prev_timestamp and "alert" in eve:
-                            notice_target_eve.append(eve)
+                            sig_id: int = eve["alert"]["signature_id"] 
+                            if lower_sig_id <= sig_id and sig_id <= upper_sig_id:
+                                notice_target_eve.append(eve)
                             prev_timestamp = cur_timestamp
                 # 通知
                 if len(notice_target_eve) > 0:

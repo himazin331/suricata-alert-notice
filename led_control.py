@@ -33,9 +33,16 @@ class LedControl():
 
     def led_emit(self, led_type, emit_type):
         if led_type is LedType.Red:
-            GPIO.output(YELLOW_LED_PIN, emit_type)
             GPIO.output(RED_LED_PIN, emit_type)
         elif led_type is LedType.Yellow:
             GPIO.output(YELLOW_LED_PIN, emit_type)
         else:
             GPIO.output(GREEN_LED_PIN, emit_type)
+
+    def is_on_led(self, led_type):
+        if led_type is LedType.Red:
+            return GPIO.input(RED_LED_PIN)
+        elif led_type is LedType.Yellow:
+            return GPIO.input(YELLOW_LED_PIN)
+        else:
+            return GPIO.input(GREEN_LED_PIN)
