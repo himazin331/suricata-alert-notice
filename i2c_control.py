@@ -14,8 +14,9 @@ LCD_BACKLIGHT_ON = 0x08 # バックライト-オン
 LCD_BACKLIGHT_OFF = 0x00 # バックライト-オフ
 ENABLE = 0b00000100     # 有効
 
-bus = smbus2.SMBus(I2C_PORT)
+bus: smbus2.SMBus = smbus2.SMBus(I2C_PORT)
 
+# LCD初期化
 def lcd_init():
     # レジスタ初期化（4ビットモード）
     lcd_byte(0x33, LCD_CMD)
@@ -25,7 +26,7 @@ def lcd_init():
     # ディスプレイ表示オン、カーソル表示オン、カーソル点滅オン
     lcd_byte(0x0C, LCD_CMD)
     # ディスプレイクリア
-    lcd_byte(0x01, LCD_CMD)
+    lcd_byte(LCD_CLEAR, LCD_CMD)
     time.sleep(0.1)
 
 def lcd_byte(bits, mode):
@@ -48,7 +49,9 @@ def lcd_toggle_enable(bits):
     bus.write_byte(I2C_ADDR, (bits & ~ENABLE))
     time.sleep(0.0005)
 
+# LCD文字表示
 def lcd_string(msg: str):
+    # LCD文字幅ごとに分割
     msg_line: list[str] = [msg[i:i+LCD_WIDTH] for i in range(0, len(msg), LCD_WIDTH)]
     msg_line[-1] = msg_line[-1].ljust(LCD_WIDTH, " ")
 
@@ -65,5 +68,6 @@ def lcd_string(msg: str):
 
         time.sleep(2)
 
+# LCD表示クリア
 def lcd_clear():
     lcd_byte(LCD_CLEAR, LCD_CMD)
