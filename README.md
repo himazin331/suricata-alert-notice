@@ -13,7 +13,7 @@ Suricataがアラートを発報したときに、メールまたはLINE(ある�
 
 ## ハードウェア
 - Raspberry Pi 4 Model B x1
-- 1602 LCD x1
+- 1602 LCD - I2C I/Oエキスパンダ(PCF8574)付 x1
 - タクタイルスイッチ x1
 - 発光ダイオード 赤x1, 黄x1, 緑x1
 - 圧電ブザー(自励式) x1
@@ -22,6 +22,10 @@ Suricataがアラートを発報したときに、メールまたはLINE(ある�
 - 0.33μFコンデンサ x1
 - 適当な基板 or ブレッドボード x1
 - 電線 or ジャンパ線
+
+### 回路図
+LCDとPCF8574の配線は参考程度に....
+![suricata_alert_notice](suricata_alert_notice.svg)
 
 ## 準備
 ### 1. 各GPIOピンの指定
