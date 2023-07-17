@@ -24,8 +24,11 @@ Suricataがアラートを発報したときに、メールまたはLINE(ある�
 - 電線 or ジャンパ線
 
 ### 回路図
-LCDとPCF8574の配線は参考程度に....
-![suricata_alert_notice](suricata_alert_notice.svg)
+LCDとPCF8574の配線は参考程度に....\
+![suricata_alert_notice回路図](images/suricata_alert_notice.svg)
+
+### 実体配線図
+![suricata_alert_notice実体配線図](images/suricata_alert_notice_bb.png)
 
 ## 準備
 ### 1. 各GPIOピンの指定
