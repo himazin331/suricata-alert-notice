@@ -121,4 +121,4 @@ PRIORITY_SIG_CATEGORY: list[str] = [
 ```
 
 In my case, I configured the application to notify only for alerts with signature IDs in the range of 2000000 ~ 2099999 from the Emerging Threats open ruleset.
-Also, any signature message containing a string
+Also, any signature message containing a string from `PRIORITY_SIG_CATEGORY` will be treated as a high-level alert, triggering the buzzer and activating the red LED.
