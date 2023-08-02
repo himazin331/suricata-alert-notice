@@ -122,3 +122,25 @@ PRIORITY_SIG_CATEGORY: list[str] = [
 
 In my case, I configured the application to notify only for alerts with signature IDs in the range of 2000000 ~ 2099999 from the Emerging Threats open ruleset.
 Also, any signature message containing a string from `PRIORITY_SIG_CATEGORY` will be treated as a high-level alert, triggering the buzzer and activating the red LED.
+
+#### References
+- Emerging Threats Open Ruleset Signature ID Allocation Ranges: \
+https://community.emergingthreats.net/t/signature-id-allocation-ranges/491
+- Emerging Threats Open Ruleset Rule Categories: \
+https://community.emergingthreats.net/t/current-suricata-5-and-suricata-6-rule-categories/94
+
+## Execution
+```
+$ python main.py
+```
+Note: The application will exit with an error if `eve.json` is not found at the specified location.
+
+### Features
+- When Suricata detects an alert, the yellow LED will light up, the signature message will be displayed on the LCD, and notifications will be sent via email or LINE, or both.
+- If a high-level alert (a rule containing `PRIORITY_SIG_CATEGORY`) is detected, the red LED will also light up in addition to the yellow LED, and the buzzer will sound.
+- While the LCD is displaying, you can stop the LCD display and buzzer alert by long-pressing the stop switch.
+- You can exit the application by using Ctrl+C.
+  (Note: A `RuntimeError` may occur during shutdown in the GPIO section, but it won't affect functionality.)
+
+## Disclaimer
+- (Although I don't think anyone will use this) We are not responsible for any losses incurred through the use of this application. Please use it at your own risk.
