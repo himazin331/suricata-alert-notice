@@ -1,5 +1,7 @@
 # Suricata Alert Notice App
 
+※ 日本語版は[こちら](README_JP.md)
+
 This is an application that sends notifications via email or LINE (or both) when Suricata generates an alert. It also includes optional features like LCD display, indicator LED display, and buzzer alert.
 
 ## Prerequisites
