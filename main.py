@@ -61,6 +61,12 @@ class Notice():
             message = self.create_message(eve)
             self.line_notify.sendLineMessage(message)
 
+def is_priority_sig(sig: str) -> bool:
+    for category in FILTER_SIG_CATEGORY:
+        if category in sig:
+            return True
+    return False
+
 def main():
     notice: Notice = Notice()
 
@@ -83,7 +89,8 @@ def main():
                     if cur_timestamp > prev_timestamp and "alert" in eve:
                         sig_id: int = eve["alert"]["signature_id"] 
                         if lower_sig_id <= sig_id and sig_id <= upper_sig_id:
-                            notice_target_eve.append(eve)
+                            if is_priority_sig(eve["alert"]["signature"] ):
+                                notice_target_eve.append(eve)
                         prev_timestamp = cur_timestamp
             # 通知
             if len(notice_target_eve) > 0:
