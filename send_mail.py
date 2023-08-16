@@ -20,6 +20,6 @@ class EMailSend():
                 server.starttls() # TLS暗号化の開始
                 server.login(SMTP_USER, SMTP_PASS) # SMTPサーバーへのログイン
 
-                server.send_message(self.msg)
+                server.send_message(msg)
         except Exception as e:
             print(e)
