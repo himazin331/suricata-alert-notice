@@ -6,17 +6,13 @@ from config.notice import *
 
 # メール送信
 class EMailSend():
-    # MIMEメッセージの作成
-    def __init__(self):
-        self.msg: MIMEMultipart = MIMEMultipart()
-        self.msg["From"] = SENDER_EMAIL
-        self.msg["To"] = RECEIVER_EMAIL
-        self.msg["Subject"] = "[SuricataAlertNotice] 不審なパケットを検知しました！"
-
     # メール送信
     def sendEmail(self, message: str):
-        # メール本文の追加
-        self.msg.attach(MIMEText(message, "plain"))
+        msg: MIMEMultipart = MIMEMultipart()
+        msg["From"] = SENDER_EMAIL
+        msg["To"] = RECEIVER_EMAIL
+        msg["Subject"] = "[SuricataAlertNotice] 不審なパケットを検知しました！"
+        msg.attach(MIMEText(message, "plain"))
 
         # GmailのSMTPサーバーへの接続とメール送信
         try:
