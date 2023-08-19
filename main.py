@@ -22,10 +22,10 @@ class Notice():
         message: str = "不審な通信を検知しました！\n"
         message += f"件数: {len(self.notice_target_eve)} 件\n"
         if not (NOTICE_TYPE is NoticeType.Nothing):
-            if NOTICE_TYPE is NoticeType.Email or NOTICE_TYPE is NoticeType.Both: # Email送信
-                self.send_email(message)
             if NOTICE_TYPE is NoticeType.LineNotify or NOTICE_TYPE is NoticeType.Both: # LINE通知
                 self.send_line(message)
+            if NOTICE_TYPE is NoticeType.Email or NOTICE_TYPE is NoticeType.Both: # Email送信
+                self.send_email(message)
 
     # メッセージ作成
     def create_message(self, eve: dict) -> str:
